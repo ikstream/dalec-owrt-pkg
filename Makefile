@@ -11,6 +11,8 @@ PKG_SOURCE:=$(PKG_NAME)-$(PKG_VERSION).tar.gz
 PKG_SOURCE_URL:=https://github.com/ikstream/$(PKG_NAME)/archive/refs/tags/$(PKG_VERSION)
 PKG_HASH:=06e95bf4c181416351638dba98fbbfb36b10cf914d410296343179d030692338
 
+PKG_INSTALL:=1
+
 include $(INCLUDE_DIR)/package.mk
 
 define Package/$(PKG_NAME)
@@ -27,13 +29,10 @@ define Package/$(PKG_NAME)/description
 	encrypted over the domain name system to remove sender information
 endef
 
-define Build/Compile
-endef
-
 define Package/$(PKG_NAME)/install
 		$(INSTALL_DIR) $(1)/usr/sbin/dalec
-		$(INSTALL_BIN) ./dalec $(1)/usr/sbin/dalec/
-		$(INSTALL_DATA) ./tranmitt_data $(1)/usr/sbin/dalec
+		$(INSTALL_BIN) $(PKG_BUILD_DIR)/dalec $(1)/usr/bin/
+		$(INSTALL_BIN) $(PKG_BUILD_DIR)/tranmitt_data $(1)/usr/sbin/
 endef
 
 $(eval $(call BuildPackage,dalec))
